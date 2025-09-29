@@ -1,0 +1,34 @@
+<div *ngIf="loading">
+  <p>Loading...</p>
+</div>
+
+<div *ngIf="error">
+  <p class="error">{{ error }}</p>
+</div>
+
+<div *ngIf="workspace && !loading" class="workspace-detail">
+  <h2>{{ workspace.name }}</h2>
+  <p><strong>Workspace ID:</strong> {{ workspace.id }}</p>
+  
+  <div class="files-section">
+    <h3>Files in this Workspace</h3>
+    <div *ngIf="files.length > 0; else noFiles" class="files-grid">
+      <div class="file-card" *ngFor="let file of files">
+        <div class="file-icon">📄</div>
+        <div class="file-info">
+          <h4>{{ file.fileName }}</h4>
+          <p><strong>Type:</strong> {{ file.fileType }}</p>
+          <p><strong>Size:</strong> {{ file.fileSize | number }} bytes</p>
+          <p><strong>Uploaded by:</strong> {{ file.uploadedByUser }}</p>
+          <p><strong>Uploaded:</strong> {{ file.uploadedAt | date:'medium' }}</p>
+        </div>
+        <div class="file-actions">
+          <button class="btn-view" (click)="viewFile(file)">View File</button>
+        </div>
+      </div>
+    </div>
+    <ng-template #noFiles>
+      <p class="no-files">No files uploaded to this workspace yet.</p>
+    </ng-template>
+  </div>
+</div>

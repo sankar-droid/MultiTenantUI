@@ -1,0 +1,13 @@
+<div class="workspace-list">
+  <h2>Workspaces</h2>
+  <div class="workspace-grid">
+    <div *ngFor="let workspace of workspaces" class="workspace-card">
+      <h3>{{ workspace.name }}</h3>
+      <p>Tenant: {{ workspace.tenantId }}</p>
+      <div class="actions">
+        <button class="btn-view" [routerLink]="['/workspaces', workspace.id]">View</button>
+        <button class="btn-delete" (click)="deleteWorkspace(workspace.id)">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>

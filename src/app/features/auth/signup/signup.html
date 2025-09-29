@@ -1,0 +1,111 @@
+<div class="signup-container">
+  <div class="signup-form">
+    <h2>Sign Up</h2>
+    
+    <form (ngSubmit)="onSubmit()" #signupForm="ngForm">
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <input 
+          type="text" 
+          id="username" 
+          name="username"
+          [(ngModel)]="signupData.username" 
+          required 
+          minlength="3"
+          pattern="^[a-zA-Z0-9_]+$"
+          class="form-control"
+          #username="ngModel">
+        <div *ngIf="username.invalid && username.touched" class="validation-error">
+          <small *ngIf="username.errors?.['required']">Username is required</small>
+          <small *ngIf="username.errors?.['minlength']">Username must be at least 3 characters</small>
+          <small *ngIf="username.errors?.['pattern']">Username can only contain letters, numbers, and underscores</small>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input 
+          type="password" 
+          id="password" 
+          name="password"
+          [(ngModel)]="signupData.password" 
+          required 
+          minlength="8"
+          pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+          class="form-control"
+          #password="ngModel">
+        <div *ngIf="password.invalid && password.touched" class="validation-error">
+          <small *ngIf="password.errors?.['required']">Password is required</small>
+          <small *ngIf="password.errors?.['minlength']">Password must be at least 8 characters</small>
+          <small *ngIf="password.errors?.['pattern']">Password must contain uppercase, lowercase, number, and special character</small>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input 
+          type="email" 
+          id="email" 
+          name="email"
+          [(ngModel)]="signupData.email" 
+          required 
+          pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+          class="form-control"
+          #email="ngModel"
+          (blur)="validateEmail()">
+        <div *ngIf="email.invalid && email.touched" class="validation-error">
+          <small *ngIf="email.errors?.['required']">Email is required</small>
+          <small *ngIf="email.errors?.['pattern']">Please enter a valid email address</small>
+          <small *ngIf="emailValidationError">{{emailValidationError}}</small>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="tenant">Tenant:</label>
+        <select 
+          id="tenant" 
+          name="tenant"
+          [(ngModel)]="signupData.tenant" 
+          required 
+          class="form-control">
+          <option value="">Select Tenant</option>
+          <option value="MS Corp">MS Corp</option>
+          <option value="Tech Innovators">Tech Innovators</option>
+          <option value="Global Solutions">Global Solutions</option>
+        </select>
+      </div>
+
+      <div class="form-group" *ngIf="!isAdminUser">
+        <label for="workspace">Workspace (Optional):</label>
+        <input 
+          type="text" 
+          id="workspace" 
+          name="workspace"
+          [(ngModel)]="signupData.workspaceName" 
+          placeholder="Enter workspace name"
+          class="form-control">
+      </div>
+
+      <div *ngIf="error" class="error">{{ error }}</div>
+      <div *ngIf="success" class="success">{{ success }}</div>
+      <div *ngIf="isAdminUser" class="info">Admin user detected - full access will be granted</div>
+      
+      <style>
+        .validation-error { color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem; }
+        .form-control.ng-invalid.ng-touched { border-color: #dc3545; }
+        .form-control.ng-valid.ng-touched { border-color: #28a745; }
+      </style>
+
+      <button 
+        type="submit" 
+        [disabled]="loading || !signupForm.valid" 
+        class="btn-signup">
+        {{ loading ? 'Creating Account...' : 'Sign Up' }}
+      </button>
+    </form>
+
+    <p class="login-link">
+      Already have an account? <a routerLink="/login">Login</a>
+    </p>
+  </div>
+</div>

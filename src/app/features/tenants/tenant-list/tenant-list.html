@@ -1,0 +1,18 @@
+<h2>Tenant List</h2>
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Data Key</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let tenant of tenants">
+      <td>{{ tenant.id }}</td>
+      <td><a [routerLink]="['/tenants', tenant.id]">{{ tenant.name }}</a></td>
+      <td>{{ tenant.dataKey }}</td>
+    </tr>
+  </tbody>
+</table>
+

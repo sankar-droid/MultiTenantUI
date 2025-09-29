@@ -1,0 +1,57 @@
+<div class="user-list">
+  <h2>👥 Users Management</h2>
+  
+  <!-- Admin Filter Controls -->
+  <div *ngIf="isAdmin" class="filter-controls">
+    <div class="filter-row">
+      <div class="filter-group">
+        <label>Sort Column:</label>
+        <select [(ngModel)]="sortColumn" (change)="applyFilters()">
+          <option *ngFor="let col of sortColumns" [value]="col">{{col}}</option>
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <label>Sort Order:</label>
+        <select [(ngModel)]="sortOrder" (change)="applyFilters()">
+          <option value="ASC">Ascending</option>
+          <option value="DESC">Descending</option>
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <label>Start From:</label>
+        <select [(ngModel)]="pageIndex" (change)="loadTenantUsers()">
+          <option *ngFor="let index of pageIndexOptions" [value]="index">
+            {{index === 0 ? 'Beginning' : 'Record ' + (index + 1)}}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Users Grid -->
+  <div class="users-grid">
+    <div *ngFor="let user of users" class="user-card">
+      <h3>{{ user.username }}</h3>
+      <p>📧 {{ user.email }}</p>
+      <p>🆔 {{ user.id }}</p>
+      <div class="user-actions">
+        <button *ngFor="let link of user.links" 
+                [class]="'btn-' + link.rel" 
+                (click)="performAction(link, user)">
+          {{ link.rel | titlecase }}
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Pagination Controls -->
+  <div *ngIf="isAdmin && totalCount > 10" class="pagination">
+    <button (click)="previousPage()" [disabled]="pageIndex === 0">Previous</button>
+    <span class="page-info">
+      Showing {{pageIndex * 10 + 1}}-{{Math.min((pageIndex + 1) * 10, totalCount)}} of {{totalCount}} users (10 per page)
+    </span>
+    <button (click)="nextPage()" [disabled]="(pageIndex + 1) * 10 >= totalCount">Next</button>
+  </div>
+</div>

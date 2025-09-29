@@ -1,0 +1,41 @@
+<div *ngIf="loading">
+  <p>Loading...</p>
+</div>
+
+<div *ngIf="error">
+  <p class="error">{{ error }}</p>
+</div>
+
+<div *ngIf="tenant && !loading">
+  <h2>{{ tenant.name }}</h2>
+  <p><strong>ID:</strong> {{ tenant.id }}</p>
+  <p><strong>Data Key:</strong> {{ tenant.dataKey }}</p>
+  
+  <div *ngIf="tenant.users && tenant.users.length > 0">
+    <h3>Users</h3>
+    <ul>
+      <li *ngFor="let user of tenant.users">{{ user.username }}</li>
+    </ul>
+  </div>
+  
+  <div *ngIf="tenant.workSpaces && tenant.workSpaces.length > 0">
+    <h3>Workspaces</h3>
+    <ul>
+      <li *ngFor="let workspace of tenant.workSpaces">{{ workspace.name }}</li>
+    </ul>
+  </div>
+  
+  <div *ngIf="tenantResponse?.recordCount" class="metadata">
+    <h3>Metadata</h3>
+    <p><strong>Record Count:</strong> {{ tenantResponse.recordCount }}</p>
+  </div>
+  
+  <div *ngIf="tenantResponse?.links && tenantResponse.links.length > 0" class="links">
+    <h3>Available Actions</h3>
+    <ul>
+      <li *ngFor="let link of tenantResponse.links">
+        <a [href]="link.href" class="action-link">{{ link.rel }} ({{ link.type }})</a>
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+<div *ngIf="loading">
+  <p>Loading...</p>
+</div>
+
+<div *ngIf="error">
+  <p class="error">{{ error }}</p>
+</div>
+
+<div *ngIf="user && !loading">
+  <h2>{{ user.username }}</h2>
+  <p><strong>ID:</strong> {{ user.id }}</p>
+  <p><strong>Tenant ID:</strong> {{ user.tenantId }}</p>
+  
+  <div *ngIf="user.tenant">
+    <h3>Tenant Information</h3>
+    <p><strong>Tenant Name:</strong> {{ user.tenant.name }}</p>
+    <p><strong>Data Key:</strong> {{ user.tenant.dataKey }}</p>
+  </div>
+  
+  <div *ngIf="userResponse?.recordCount" class="metadata">
+    <h3>Metadata</h3>
+    <p><strong>Record Count:</strong> {{ userResponse.recordCount }}</p>
+  </div>
+  
+  <div *ngIf="userResponse?.links && userResponse.links.length > 0" class="links">
+    <h3>Available Actions</h3>
+    <ul>
+      <li *ngFor="let link of userResponse.links">
+        <a [href]="link.href" class="action-link">{{ link.rel }} ({{ link.type }})</a>
+      </li>
+    </ul>
+  </div>
+</div>
